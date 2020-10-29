@@ -215,7 +215,7 @@ export default function tranform(
             if (!mobxImport.specifiers) {
                 mobxImport.specifiers = []
             }
-            mobxImport.specifiers.push(j.importSpecifier(j.identifier("makeObservable")))
+            mobxImport.specifiers.push(j.importSpecifier(j.identifier("makeAutoObservable")))
         }
     }
     if (!decoratorsUsed.size && !usesDecorate) {
@@ -315,8 +315,8 @@ export default function tranform(
         // makeObservable(this, { members })
         const initializeObservablesCall = j.expressionStatement(
             j.callExpression(
-                j.identifier("makeObservable"),
-                options?.keepDecorators ? [j.thisExpression()] : [j.thisExpression(), members]
+                j.identifier("makeAutoObservable"),
+                [j.thisExpression(), j.identifier('undefined, { autoBind: true }')]
             )
         )
         if (privates.length) {
